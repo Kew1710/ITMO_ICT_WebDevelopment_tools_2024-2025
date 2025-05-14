@@ -1,8 +1,5 @@
-# db.py
-from sqlalchemy.orm import Session
-from sqlmodel import SQLModel, create_engine
+from sqlmodel import SQLModel, create_engine, Session
 
-# Замените параметры подключения (имя пользователя, пароль, адрес и название базы данных)
 DATABASE_URL = "postgresql://postgres:123@localhost/finances_db"
 engine = create_engine(DATABASE_URL, echo=True)
 

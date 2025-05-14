@@ -4,7 +4,7 @@ from enum import Enum
 from typing import Optional, List
 from pydantic import BaseModel
 
-# Перечисление для типа воина (для примера)
+
 class RaceType(Enum):
     director = "director"
     worker = "worker"

@@ -1,21 +1,19 @@
 import os
 import sys
 
-# Добавляем путь к папке 'app'
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'app'))
 
 from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 from alembic import context
 
-# Импортируем SQLModel и все модели из вашего проекта
+
 from sqlmodel import SQLModel
 from models import Category, Transaction, Tag, TransactionTagLink
 
-# Определяем target_metadata для автогенерации миграций
 target_metadata = SQLModel.metadata
 
-# Интерпретация конфигурационного файла alembic.ini
 config = context.config
 fileConfig(config.config_file_name)
 

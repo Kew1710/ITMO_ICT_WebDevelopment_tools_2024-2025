@@ -1,5 +1,3 @@
-# main.py
-
 from typing import List
 from typing_extensions import TypedDict
 from fastapi import FastAPI, HTTPException
@@ -7,7 +5,7 @@ from models import Warrior, Profession, RaceType, Skill
 
 app = FastAPI()
 
-# Временная база данных для воинов (с вложенными профессиями и умениями)
+
 temp_bd = [
     {
         "id": 1,
@@ -46,7 +44,6 @@ temp_bd = [
     },
 ]
 
-# Временная база данных для профессий
 professions_db = [
     {
         "id": 1,
@@ -60,9 +57,6 @@ professions_db = [
     },
 ]
 
-# --------------------------
-# Эндпоинты для работы с воинами
-# --------------------------
 
 @app.get("/", tags=["Root"])
 def hello():
@@ -103,10 +97,6 @@ def warrior_update(warrior_id: int, warrior: Warrior) -> List[Warrior]:
             return temp_bd
     raise HTTPException(status_code=404, detail="Воин не найден")
 
-# --------------------------
-# Эндпоинты для работы с профессиями
-# --------------------------
-
 @app.get("/professions", tags=["Профессии"])
 def get_professions() -> List[Profession]:
     return professions_db
@@ -120,7 +110,6 @@ def get_profession(profession_id: int) -> Profession:
 
 @app.post("/profession", tags=["Профессии"])
 def create_profession(profession: Profession) -> TypedDict('Response', {"status": int, "data": Profession}):
-    # В простом варианте не проверяем уникальность id
     profession_to_append = profession.model_dump()
     professions_db.append(profession_to_append)
     return {"status": 200, "data": profession}

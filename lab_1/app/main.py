@@ -1,21 +1,19 @@
-# main.py
 from fastapi import FastAPI, HTTPException, Depends
 from typing import List
 from sqlmodel import Session, select
 from models import Category, Transaction, Tag, TransactionType
 from db import engine, init_db, get_session
 from datetime import date
+from auth import router as auth_router
 
 app = FastAPI()
+app.include_router(auth_router)
 
-# Инициализация базы данных при старте приложения
+
+
 @app.on_event("startup")
 def on_startup():
     init_db()
-
-# -------------------------------------
-# Эндпоинты для работы с категориями
-# -------------------------------------
 
 @app.get("/categories", response_model=List[Category])
 def read_categories(session: Session = Depends(get_session)):
@@ -45,9 +43,6 @@ def delete_category(category_id: int, session: Session = Depends(get_session)):
     session.commit()
     return {"ok": True}
 
-# -------------------------------------
-# Эндпоинты для работы с тегами
-# -------------------------------------
 
 @app.get("/tags", response_model=List[Tag])
 def read_tags(session: Session = Depends(get_session)):
@@ -77,9 +72,6 @@ def delete_tag(tag_id: int, session: Session = Depends(get_session)):
     session.commit()
     return {"ok": True}
 
-# -------------------------------------
-# Эндпоинты для работы с транзакциями
-# -------------------------------------
 
 @app.get("/transactions", response_model=List[Transaction])
 def read_transactions(session: Session = Depends(get_session)):
@@ -122,9 +114,7 @@ def delete_transaction(transaction_id: int, session: Session = Depends(get_sessi
     session.commit()
     return {"ok": True}
 
-# -------------------------------------
-# Пример: GET‑запрос для формирования финансового отчёта
-# -------------------------------------
+
 @app.get("/report")
 def financial_report(session: Session = Depends(get_session)):
     transactions = session.exec(select(Transaction)).all()

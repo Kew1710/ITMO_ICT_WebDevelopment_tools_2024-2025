@@ -1,4 +1,3 @@
-# main.py
 from fastapi import FastAPI, Depends, HTTPException
 from sqlmodel import select, Session
 from typing import List
@@ -7,17 +6,12 @@ from connection import engine, init_db, get_session
 
 app = FastAPI()
 
-# При старте приложения создаются таблицы в БД
+
 @app.on_event("startup")
 def on_startup():
     init_db()
 
-# ---------------------------
-# ЭНДПОИНТЫ ДЛЯ РАБОТЫ С ВОИНАМИ
-# ---------------------------
 
-# Создание нового воина. В теле запроса можно передать также список умений,
-# если они уже существуют (или можно передать пустой список).
 @app.post("/warrior", response_model=WarriorRead)
 def create_warrior(warrior: Warrior, session: Session = Depends(get_session)):
     session.add(warrior)
@@ -25,13 +19,12 @@ def create_warrior(warrior: Warrior, session: Session = Depends(get_session)):
     session.refresh(warrior)
     return warrior
 
-# Получение списка воинов с вложенными умениями и профессией
 @app.get("/warriors", response_model=List[WarriorRead])
 def get_warriors(session: Session = Depends(get_session)):
     warriors = session.exec(select(Warrior)).all()
     return warriors
 
-# Получение воина по id с вложенными умениями
+
 @app.get("/warrior/{warrior_id}", response_model=WarriorRead)
 def get_warrior(warrior_id: int, session: Session = Depends(get_session)):
     warrior = session.get(Warrior, warrior_id)
@@ -39,7 +32,7 @@ def get_warrior(warrior_id: int, session: Session = Depends(get_session)):
         raise HTTPException(status_code=404, detail="Warrior not found")
     return warrior
 
-# Частичное обновление воина (например, изменение имени или уровня)
+
 @app.patch("/warrior/{warrior_id}", response_model=WarriorRead)
 def update_warrior(warrior_id: int, warrior_data: Warrior, session: Session = Depends(get_session)):
     warrior_db = session.get(Warrior, warrior_id)
@@ -53,7 +46,6 @@ def update_warrior(warrior_id: int, warrior_data: Warrior, session: Session = De
     session.refresh(warrior_db)
     return warrior_db
 
-# Удаление воина по id
 @app.delete("/warrior/{warrior_id}")
 def delete_warrior(warrior_id: int, session: Session = Depends(get_session)):
     warrior = session.get(Warrior, warrior_id)
@@ -63,7 +55,6 @@ def delete_warrior(warrior_id: int, session: Session = Depends(get_session)):
     session.commit()
     return {"ok": True}
 
-# Привязка (добавление) умения к воину по id
 @app.post("/warrior/{warrior_id}/add_skill/{skill_id}", response_model=WarriorRead)
 def add_skill_to_warrior(warrior_id: int, skill_id: int, session: Session = Depends(get_session)):
     warrior = session.get(Warrior, warrior_id)
@@ -80,11 +71,7 @@ def add_skill_to_warrior(warrior_id: int, skill_id: int, session: Session = Depe
     session.refresh(warrior)
     return warrior
 
-# ---------------------------
-# ЭНДПОИНТЫ ДЛЯ РАБОТЫ С УМЕНИЯМИ
-# ---------------------------
 
-# Создание нового умения
 @app.post("/skill", response_model=Skill)
 def create_skill(skill: Skill, session: Session = Depends(get_session)):
     session.add(skill)
@@ -106,7 +93,6 @@ def get_skill(skill_id: int, session: Session = Depends(get_session)):
         raise HTTPException(status_code=404, detail="Skill not found")
     return skill
 
-# Обновление умения (частичное обновление)
 @app.patch("/skill/{skill_id}", response_model=Skill)
 def update_skill(skill_id: int, skill_data: Skill, session: Session = Depends(get_session)):
     skill_db = session.get(Skill, skill_id)
@@ -120,7 +106,6 @@ def update_skill(skill_id: int, skill_data: Skill, session: Session = Depends(ge
     session.refresh(skill_db)
     return skill_db
 
-# Удаление умения
 @app.delete("/skill/{skill_id}")
 def delete_skill(skill_id: int, session: Session = Depends(get_session)):
     skill = session.get(Skill, skill_id)

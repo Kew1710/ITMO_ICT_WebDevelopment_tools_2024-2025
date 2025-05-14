@@ -1,10 +1,9 @@
-# models.py
 from datetime import date
 from typing import Optional, List
 from enum import Enum
 from sqlmodel import SQLModel, Field, Relationship
 
-# Перечисление типа транзакции
+
 class TransactionType(str, Enum):
     income = "income"
     expense = "expense"
@@ -21,6 +20,7 @@ class Category(SQLModel, table=True):
 class TransactionTagLink(SQLModel, table=True):
     transaction_id: Optional[int] = Field(default=None, foreign_key="transaction.id", primary_key=True)
     tag_id: Optional[int] = Field(default=None, foreign_key="tag.id", primary_key=True)
+    note: Optional[str] = Field(default=None, description="Комментарий или пометка к связи тега с транзакцией")
 
 # Модель тега – отношение многие ко многим (один тег ↔ много транзакций)
 class Tag(SQLModel, table=True):
@@ -42,3 +42,18 @@ class Transaction(SQLModel, table=True):
     category: Optional[Category] = Relationship(back_populates="transactions")
     # Отношение многие ко многим с тегами
     tags: List[Tag] = Relationship(back_populates="transactions", link_model=TransactionTagLink)
+
+class User(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    username: str = Field(index=True, unique=True)
+    password_hash: str
+
+
+class UserCreate(SQLModel):
+    username: str
+    password: str
+
+# Для ответа (без пароля)
+class UserRead(SQLModel):
+    id: int
+    username: str
