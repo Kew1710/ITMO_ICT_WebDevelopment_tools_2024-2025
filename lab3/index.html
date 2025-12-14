@@ -1,0 +1,860 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://Kew1710.github.io/ITMO_ICT_WebDevelopment_tools_2024-2025/lab3/">
+      
+      
+        <link rel="prev" href="../lab2/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>ЛР3. Docker и очереди - Средства Web-программирования</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+      (function(m,e,t,r,i,k,a){
+          m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          for (var j = 0; j < document.scripts.length; j++) {
+              if (document.scripts[j].src === r) { return; }
+          }
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0],
+          k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+      })(window, document,'script',
+         'https://mc.yandex.ru/metrika/tag.js?id=105827786', 'ym');
+
+      ym(105827786, 'init', {
+          ssr:true,
+          webvisor:true,
+          clickmap:true,
+          ecommerce:"dataLayer",
+          accurateTrackBounce:true,
+          trackLinks:true
+      });
+  </script>
+  <noscript>
+    <div>
+      <img src="https://mc.yandex.ru/watch/105827786"
+           style="position:absolute; left:-9999px;" alt="" />
+    </div>
+  </noscript>
+  <!-- /Yandex.Metrika counter -->
+
+
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#3-docker" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Средства Web-программирования" class="md-header__button md-logo" aria-label="Средства Web-программирования" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Средства Web-программирования
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ЛР3. Docker и очереди
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Средства Web-программирования" class="md-nav__button md-logo" aria-label="Средства Web-программирования" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Средства Web-программирования
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Главная
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторные работы
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Лабораторные работы
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ЛР1. FastAPI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ЛР2. Потоки и async
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ЛР3. Docker и очереди
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ЛР3. Docker и очереди
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Содержание
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Цель
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Структура проекта
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-docker-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Подзадача 1: Docker и Docker Compose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-http-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Подзадача 2: HTTP-вызов парсера
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-celery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Подзадача 3: Парсер через очередь Celery
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Запуск и проверка
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Содержание
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Цель
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Структура проекта
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-docker-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Подзадача 1: Docker и Docker Compose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-http-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Подзадача 2: HTTP-вызов парсера
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-celery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Подзадача 3: Парсер через очередь Celery
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Запуск и проверка
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="3-docker">Лабораторная работа 3. Docker, очередь задач и интеграция парсера</h1>
+<blockquote>
+<p>Упаковать FastAPI-приложение, БД и парсер в контейнеры Docker; добавить HTTP-вызов парсера и асинхронный вызов через очередь Celery+Redis.</p>
+</blockquote>
+<h2 id="_1">Содержание</h2>
+<ul>
+<li><a href="#цель">Цель</a></li>
+<li><a href="#структура-проекта">Структура проекта</a></li>
+<li><a href="#подзадача-1-docker-и-docker-compose">Подзадача 1: Docker и Docker Compose</a></li>
+<li><a href="#подзадача-2-http-вызов-парсера">Подзадача 2: HTTP-вызов парсера</a></li>
+<li><a href="#подзадача-3-парсер-через-очередь-celery">Подзадача 3: Парсер через очередь Celery</a></li>
+<li><a href="#запуск-и-проверка">Запуск и проверка</a></li>
+</ul>
+<hr />
+<h2 id="_2">Цель</h2>
+<p>Научиться упаковывать FastAPI-приложение, базу данных и парсер данных в Docker-контейнеры; вызывать парсер через HTTP и через очередь Celery+Redis.</p>
+<h2 id="_3">Структура проекта</h2>
+<pre><code class="language-bash">lab3/
+├─ app/                      # FastAPI-приложение (из ЛР1)
+│  ├─ main.py                # end‑to‑end приложение с /parse и /tasks
+│  ├─ api/                   # маршруты для данных и парсера
+│  ├─ models.py              # ORM-модели
+│  └─ utils.py               # функции запуска парсинга
+├─ parser/                   # отдельное приложение-парсер (из ЛР2)
+│  └─ parse.py               # функции parse_url(url)
+├─ docker/                   # конфигурация Docker
+│  ├─ Dockerfile.app         # сборка FastAPI-приложения
+│  ├─ Dockerfile.parser      # сборка контейнера для парсера
+│  └─ docker-compose.yml     # оркестрация сервисов
+├─ celery_app/               # конфигурация Celery
+│  ├─ celery.py              # инициализация Celery-брокера и воркера
+│  └─ tasks.py               # задача parse_task(url)
+└─ README.md                 # Инструкции по сборке и запуску
+</code></pre>
+<h2 id="1-docker-docker-compose">Подзадача 1: Docker и Docker Compose</h2>
+<ol>
+<li><strong>Dockerfile для FastAPI</strong> (<code>docker/Dockerfile.app</code>):</li>
+</ol>
+<p><code>dockerfile
+   FROM python:3.10-slim
+   WORKDIR /app
+   COPY lab1/app/requirements.txt .
+   RUN pip install -r requirements.txt
+   COPY lab1/app/ ./app
+   CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]</code>
+2. <strong>Dockerfile для парсера</strong> (<code>docker/Dockerfile.parser</code>):</p>
+<p><code>dockerfile
+   FROM python:3.10-slim
+   WORKDIR /parser
+   COPY lab2/scripts/requirements.txt .
+   RUN pip install -r requirements.txt
+   COPY lab2/scripts/parse_*.py .
+   CMD ["python", "parse_asyncio.py"]  # пример, можно адаптировать</code>
+3. <strong>docker-compose.yml</strong> (<code>docker/docker-compose.yml</code>):</p>
+<p>```yaml
+   version: '3.8'
+   services:
+     db:
+       image: postgres:15
+       environment:
+         POSTGRES_USER: user
+         POSTGRES_PASSWORD: pass
+         POSTGRES_DB: finances
+       volumes:
+         - db_data:/var/lib/postgresql/data</p>
+<pre><code> app:
+   build:
+     context: ./docker
+     dockerfile: Dockerfile.app
+   depends_on:
+     - db
+   environment:
+     DATABASE_URL: postgresql://user:pass@db:5432/finances
+     REDIS_URL: redis://redis:6379/0
+   ports:
+     - "8000:8000"
+
+ parser:
+   build:
+     context: ./docker
+     dockerfile: Dockerfile.parser
+   depends_on:
+     - db
+
+ redis:
+   image: redis:7
+
+ worker:
+   build:
+     context: ./celery_app
+   command: celery -A celery_app.celery worker --loglevel=info
+   depends_on:
+     - redis
+     - app
+</code></pre>
+<p>volumes:
+     db_data:
+   ```</p>
+<h2 id="2-http-">Подзадача 2: HTTP-вызов парсера</h2>
+<p>Добавьте в FastAPI-приложение (<code>app/api/parser.py</code>) маршрут:</p>
+<pre><code class="language-python">from fastapi import APIRouter, HTTPException
+import requests
+
+router = APIRouter()
+
+@router.post(&quot;/parse&quot;)
+def parse_url(url: str):
+    try:
+        resp = requests.get(url)
+        resp.raise_for_status()
+        data = parser.parse_url(url)
+        return {&quot;status&quot;: &quot;ok&quot;, &quot;data&quot;: data}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+</code></pre>
+<h2 id="3-celery">Подзадача 3: Парсер через очередь Celery</h2>
+<ol>
+<li><strong>Настройка Celery</strong> (<code>celery_app/celery.py</code>):</li>
+</ol>
+<p>```python
+   from celery import Celery
+   import os</p>
+<p>celery = Celery(
+     "tasks",
+     broker=os.getenv("REDIS_URL"),
+     backend=os.getenv("REDIS_URL")
+   )
+   <code>``
+2. **Задача** (</code>celery_app/tasks.py`):</p>
+<p>```python
+   from .celery import celery
+   from parser.parse import parse_url</p>
+<p>@celery.task(bind=True)
+   def parse_task(self, url: str):
+       return parse_url(url)
+   <code>``
+3. **HTTP-маршрут для фоновой задачи** (</code>app/api/async_parser.py`):</p>
+<p>```python
+   from fastapi import APIRouter
+   from celery.result import AsyncResult
+   from celery_app.tasks import parse_task</p>
+<p>router = APIRouter()</p>
+<p>@router.post("/tasks/parse")
+   def enqueue_parse(url: str):
+       task = parse_task.delay(url)
+       return {"task_id": task.id}</p>
+<p>@router.get("/tasks/{task_id}")
+   def get_status(task_id: str):
+       result = AsyncResult(task_id)
+       return {"status": result.status, "result": result.result}
+   ```</p>
+<h2 id="_4">Запуск и проверка</h2>
+<ol>
+<li>Перейдите в папку <code>docker</code> и запустите:</li>
+</ol>
+<p><code>bash
+   docker-compose up --build</code>
+2. Дождитесь поднятия всех сервисов (db, redis, app, parser, worker).
+3. <strong>Проверка HTTP-парсера</strong>:</p>
+<p><code>bash
+   curl -X POST http://localhost:8000/parse -d '"https://example.com"'</code>
+4. <strong>Проверка фоновой задачи</strong>:</p>
+<p><code>bash
+   curl -X POST http://localhost:8000/tasks/parse -d '"https://example.com"'
+   curl http://localhost:8000/tasks/&lt;task_id&gt;</code></p>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="../metrika.js"></script>
+      
+    
+  </body>
+</html>
